@@ -47,7 +47,11 @@ fatal ()
 
 cleanup ()
 {
-    rm -f "${TEMP}/all-sources" "${TEMP}/used-sources"
+    if [ -d "${TEMP}" ]
+    then
+        rm -f "${TEMP}/all-sources" "${TEMP}/used-sources"
+        rmdir "${TEMP}"
+    fi
 }
 
 set_diff ()
@@ -123,6 +127,8 @@ cd "$PROJECT" || fatal "No such project"
 [ -f history ] && [ -f info ] || fatal "Not a Non-DAW project?"
 
 [ -f .lock ] && fatal "Project appears to be in use"
+
+TEMP=$(mktemp -q -d) || fatal "Cannot create temporary directory"
 
 if [ "$ONLY_COMPACTED" = 1 ]
 then
