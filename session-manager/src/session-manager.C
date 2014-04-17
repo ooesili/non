@@ -585,7 +585,7 @@ public:
             {
                 const char *name = fl_input( "Open Session", NULL );
                 
-                if ( ! name )
+                if ( ! name || *name == '\0' )
                     return;
                 
                 Fl_Tree_Item *item = session_browser->find_item( name );
